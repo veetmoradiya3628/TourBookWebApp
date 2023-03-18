@@ -16,7 +16,14 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid Email!!'],
   },
-  photo: String,
+  photo: {
+    type: String,
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin', 'lead-guide', 'guide'],
+    default: 'user'
+  },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
@@ -62,7 +69,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   } else {
     return true;
   }
-  return false;
+  return true;
 };
 
 const User = mongoose.model('user', userSchema);
